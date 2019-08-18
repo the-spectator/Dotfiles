@@ -1,0 +1,5 @@
+# .railsrc
+--database=postgresql
+--skip-action-text
+--skip-test
+--skip-spring
