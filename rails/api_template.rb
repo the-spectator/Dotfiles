@@ -176,9 +176,10 @@ after_bundle do
   add_pg_dashboard
 
   # Migrate
-  rails_command "db:create"
-  rails_command "generate pghero:query_stats"
-  rails_command "db:migrate"
+  rails_command 'db:create'
+  generate('pghero:query_stats')
+  rails_command 'db:migrate'
+  copy '.rubocop.yml'
 
   # Commit everything to git
   git :init
