@@ -9,12 +9,12 @@ def add_gems
   gem 'sidekiq'
   gem 'fast_jsonapi'
   gem 'jwt'
+  gem 'rack-cors'
   gem 'dotenv-rails'
   gem 'pghero'
   gem 'pg_query', '>= 0.9.0'
 
-  serializer = ask 'Do you Want fast serialization? (y/n)'
-  if ['yes', 'y'].include? serializer
+  if yes?('Do you Want fast serialization? (y/n)')
     gem 'fast_jsonapi'
   else
     gem 'active_model_serializers', '~> 0.8.0'
@@ -122,14 +122,14 @@ def setup_dotenv
   run 'touch .env'
 end
 
+def template_path
+  File.dirname(__FILE__)
+end
+
 def setup_database_yml
-  config_hash = {'development' => 'dev', 'test' => 'test', 'production' => 'prod'}
-  envs = ''
   # database_config_path = 'database.yml'
   # database_config = nil
-
-  run 'cp config/database.yml config/database.yml.sample'
-
+  # config_hash = {'development' => 'dev', 'test' => 'test', 'production' => 'prod'}
   # inside 'config' do
   #   database_config = database_config_path.yield_self do |file_name|
   #     File.open(file_name).yield_self do |config|
@@ -137,6 +137,27 @@ def setup_database_yml
   #     end
   #   end
   # end
+
+  # inside('config') do
+  #   File.open(database_config_path, 'w') {|f| f.write(database_config.to_yaml) }
+  # end
+
+  # config_hash.each do |key, value|
+  #   database_config[key]['database'] = "<%= ENV['#{value.upcase}_DB'] %>"
+  #   database_config[key]['username'] = "<%= ENV['#{value.upcase}_USER'] %>"
+  #   database_config[key]['password'] = "<%= ENV['#{value.upcase}_PASSWORD'] %>"
+  #   database_config[key]['host'] = "<%= ENV['#{value.upcase}_HOST'] %>"
+  #   database_config[key]['port'] = "<%= ENV['#{value.upcase}_PORT'] %>"
+  #   database_config[key]['pool'] = "<%= ENV['#{value.upcase}_POOL'] %>"
+  # end
+  inside('config') do
+    run "cp #{template_path}/database.yml.sample database.yml"
+  end
+end
+
+def setup_database_env
+  config_hash = {'development' => 'dev', 'test' => 'test', 'production' => 'prod'}
+  envs = ''
 
   config_hash.each do |key, value|
     envs += <<~ENV
@@ -149,19 +170,25 @@ def setup_database_yml
       #{value.upcase}_POOL=10
 
     ENV
-
-    # database_config[key]['database'] = "<%= ENV['#{value.upcase}_DB'] %>"
-    # database_config[key]['username'] = "<%= ENV['#{value.upcase}_USER'] %>"
-    # database_config[key]['password'] = "<%= ENV['#{value.upcase}_PASSWORD'] %>"
-    # database_config[key]['host'] = "<%= ENV['#{value.upcase}_HOST'] %>"
-    # database_config[key]['port'] = "<%= ENV['#{value.upcase}_PORT'] %>"
-    # database_config[key]['pool'] = "<%= ENV['#{value.upcase}_POOL'] %>"
   end
 
   append_to_file '.env', "#{envs}\n"
-  # inside('config') do
-  #   File.open(database_config_path, 'w') {|f| f.write(database_config.to_yaml) }
-  # end
+end
+
+def setup_rack_cors
+  config = <<~CONFIG
+  config.middleware.insert_before 0, Rack::Cors do
+    allow do
+      origins '*'
+      resource '*', headers: :any, methods: [:get, :post, :put, :patch, :delete, :options]
+    end
+  end
+  CONFIG
+  environment config
+end
+
+def setup_rubocop_yml
+  run "cp #{template_path}/.rubocop.yml .rubocop.yml"
 end
 
 add_gems
@@ -171,15 +198,17 @@ after_bundle do
   setup_dotenv
   setup_sidekiq
   setup_whenever
+  setup_database_env
   setup_database_yml
   add_monitoring_routes
   add_pg_dashboard
+  setup_rack_cors
+  setup_rubocop_yml
 
   # Migrate
   rails_command 'db:create'
   generate('pghero:query_stats')
   rails_command 'db:migrate'
-  copy '.rubocop.yml'
 
   # Commit everything to git
   git :init
