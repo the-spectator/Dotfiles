@@ -12,8 +12,7 @@ def add_gems
   gem 'pghero'
   gem 'pg_query', '>= 0.9.0'
 
-  # serializer = ask 'Do you Want fast serialization? (y/n)'
-  serializer = 'y'
+  serializer = ask 'Do you Want fast serialization? (y/n)'
   if ['yes', 'y'].include? serializer
     gem 'fast_jsonapi'
   else
@@ -114,8 +113,8 @@ def setup_whenever
 end
 
 def bundle_install
-  # run 'bundle install --path=vendor/bundle'
-  run 'bundle install'
+  run 'bundle install --path=vendor/bundle'
+  # run 'bundle install'
 end
 
 def setup_dotenv
@@ -125,18 +124,18 @@ end
 def setup_database_yml
   config_hash = {'development' => 'dev', 'test' => 'test', 'production' => 'prod'}
   envs = ''
-  database_config_path = 'database.yml'
-  database_config = nil
+  # database_config_path = 'database.yml'
+  # database_config = nil
 
   run 'cp config/database.yml config/database.yml.sample'
 
-  inside 'config' do
-    database_config = database_config_path.yield_self do |file_name|
-      File.open(file_name).yield_self do |config|
-        YAML.load(config)
-      end
-    end
-  end
+  # inside 'config' do
+  #   database_config = database_config_path.yield_self do |file_name|
+  #     File.open(file_name).yield_self do |config|
+  #       YAML.load(config)
+  #     end
+  #   end
+  # end
 
   config_hash.each do |key, value|
     envs += <<~ENV
@@ -150,18 +149,18 @@ def setup_database_yml
 
     ENV
 
-    database_config[key]['database'] = "<%= ENV['#{value.upcase}_DB'] %>"
-    database_config[key]['username'] = "<%= ENV['#{value.upcase}_USER'] %>"
-    database_config[key]['password'] = "<%= ENV['#{value.upcase}_PASSWORD'] %>"
-    database_config[key]['host'] = "<%= ENV['#{value.upcase}_HOST'] %>"
-    database_config[key]['port'] = "<%= ENV['#{value.upcase}_PORT'] %>"
-    database_config[key]['pool'] = "<%= ENV['#{value.upcase}_POOL'] %>"
+    # database_config[key]['database'] = "<%= ENV['#{value.upcase}_DB'] %>"
+    # database_config[key]['username'] = "<%= ENV['#{value.upcase}_USER'] %>"
+    # database_config[key]['password'] = "<%= ENV['#{value.upcase}_PASSWORD'] %>"
+    # database_config[key]['host'] = "<%= ENV['#{value.upcase}_HOST'] %>"
+    # database_config[key]['port'] = "<%= ENV['#{value.upcase}_PORT'] %>"
+    # database_config[key]['pool'] = "<%= ENV['#{value.upcase}_POOL'] %>"
   end
 
   append_to_file '.env', "#{envs}\n"
-  inside('config') do
-    File.open(database_config_path, 'w') {|f| f.write(database_config.to_yaml) }
-  end
+  # inside('config') do
+  #   File.open(database_config_path, 'w') {|f| f.write(database_config.to_yaml) }
+  # end
 end
 
 add_gems
