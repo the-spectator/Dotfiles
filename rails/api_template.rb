@@ -64,6 +64,7 @@ def add_monitoring_routes
     scope :monitoring do
     end
   RUBY
+  insert_into_file 'config/routes.rb', "#{content}\n\n", after: "Rails.application.routes.draw do\n"
 end
 
 def add_pg_dashboard
