@@ -1,0 +1,177 @@
+Useful Linux commands:
+
+1. Move range of lines from one file to other
+
+   sed -n '16224,16482p;16483q' filename > newfile
+
+    p - Print out the pattern space (to the standard output). This command is usually only used in conjunction with the -n command-line option.
+
+    n - If auto-print is not disabled, print the pattern space, then, regardless, replace the pattern space with the next line of input. If there is no more input then sed exits without processing any more commands.
+
+    q - Exit sed without processing any more commands or input. Note that the current pattern space is printed if auto-print is not disabled with the -n option.
+
+# nominations.exists?(aasm_state: 'enrolled', registration_completed: false, nominated_by_id: nil)
+
+OR
+
+head -n 158 file | tail -n 73 # 158-85=73
+
+2. postgres dump & restore
+	psql dbname < dumpfile
+	pg_dump -h host -p port -U username database > file_path
+	gzip file_path
+
+3. RSYNC
+
+     rsync -P -e ssh england_hockey@162.13.177.179:/home/england_hockey/current/log/production.log-20181029.gz /home/akshay/personal-projects/
+
+     example: rsync -P -e ssh tpn_prod_es:/data/prod_30_5_2019.gz /home/akshay/tpn_logs/gziped
+
+	You should use rsync over ssh
+	Other options, such -a (for archive mode), and -z (to enable compression) can also be used.
+	The key option is -P, which is the same as --partial --progress
+
+
+
+4. SCP:
+  if you are on the computer from which you want to send file to a remote computer:
+
+     scp /file/to/send username@remote:/where/to/put
+
+  Here the remote can be a FQDN or an IP address.
+
+  On the other hand if you are on the computer wanting to receive file from a remote computer:
+
+    scp username@remote:/file/to/send /where/to/put
+
+    scp can also send files between two remote hosts:
+
+    scp username@remote_1:/file/to/send username@remote_2:/where/to/put
+
+  So the basic syntax is:
+
+    scp username@source:/location/to/file username@destination:/where/to/put
+
+
+
+
+4. FIND
+	This prints all files that are descendants of your directory, skipping hidden files and directories:
+
+		find . -not -path '*/\.*'
+
+	So if you're looking for a file with some text in its name, and you want to skip hidden files and directories, run:
+
+		find . -not -path '*/\.*' -type f -name '*some text*'
+
+	Explanation:
+
+	The -path option runs checks a pattern against the entire path string. * is a wildcard, / is a directory separator, \. is a dot (it has 	to be escaped to avoid special meaning), and * is another wildcard. -not means don't select files that match this test.
+
+	I don't think that find is smart enough to avoid recursively searching hidden directories in the previous command, so if you need 		speed, use -prune instead, like this:
+
+		 find . -type d -path '*/\.*' -prune -o -not -name '.*' -type f -name '*some text*' -print
+
+5. Count number of lines in file
+	wc -l <filename>
+
+
+6. awk
+	find 100th match with corresponding line number
+ 	awk '/PlayerEnrollments/{i++}i==100{print NR"," $0; exit}' prod-2018-08-13
+
+23326, 1119
+
+7. source
+  Usecase: reload .bash_profile without closing the terminal to load fresh setting
+  source ~/.bash_profile
+
+8. Redo last command but as root
+   sudo !!
+
+
+9. Open an editor to run a command
+   ctrl+x+e
+
+
+10. create directories
+  mkdir -p folder/{sub1, sub2}/{sub1, sub2, sub3}
+
+11. create super fast ram disk
+  mkdir -p /mnt/ram
+  mount -t tmpfs tmpfs /mnt/ram -o size=8192M
+
+
+12. Don't add command to history: TO do so add extra space to command
+   example:
+   $echo "haa" => will be recorded in history
+   $ echo "haa" => will not be recorded in history
+
+13. Fix really long command
+   fc
+
+14. Tunnel with ssh (local port 3337 -> remote host's 127.0.0.1 on port 6379)
+   ssh -L 3337:127.0.0.1:6379 user@ip-or-domain -N
+
+15. Interceot stdout and lg to file
+  cat file | tee -a log | cat > /dev/null
+
+
+16. Exit terminal but leave all process running
+  disown -a && exit
+
+
+17. a double dash (--) is used in bash built-in commands and many other commands to signify the end of command options, after which only positional parameters are accepted.
+
+Example use: lets say you want to grep a file for the string -v - normally -v will be considered the option to reverse the matching meaning (only show lines that do not match), but with -- you can grep for string -v like this:
+
+  grep -- -v file
+
+18. To change the default editor in linux
+  sudo update-alternatives --config editor
+
+
+19. Copy all contents of directory to other
+
+  cp -a /source/. dest/
+
+  The -a option is an improved recursive option, that preserve all file attributes, and also preserve symlinks.
+
+  The . at end of the source path is a specific cp syntax that allow to copy all files and folders, included hidden ones.
+
+
+  An alternate is rsync
+
+   rsync -r source/ destination
+
+   The advantages of rsync are:
+
+     After the initial sync, it will then copy only the files that have changed.
+
+     You can use it over a network, convenient for files in $HOME, especially config files.
+
+20. Get size of directory
+
+    du -h ostechnix/
+
+21. Locate file in linux
+   locate application_controller.rb
+
+22. CURL
+    curl -X POST -d @file server:port -w %{time_connect}:%{time_starttransfer}:%{time_total}
+
+    curl -i -w "@curl-format.txt" -o /dev/null -s "http://wordpress.com/"
+
+    curl -X GET \
+      http://localhost:3000/sync \
+      -H 'Accept: application/vnd.thepediatricnetwork.v2+json' \
+      -H 'Accept-Encoding: gzip' \
+      -H 'Authorization: J1mGjvJPQYlSM_iNqeZaSEGqrxKeA8IH' \
+      -H 'Content-Type: application/json' \
+      -H 'X-Api-Key: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiOCIsImRldmljZV9pZCI6IjY3YzZmOWRlMDkxZTVhOWIifQ.rH94uCISXufGhofuc3v1jzJ8SkVd6f6ps3DtjGU4bYg' \
+      -H 'X-App-Key: 52f9b73d' \
+      -H 'X-Sync-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsYXN0X3N5bmNlZF9hdCI6IjE5MTgtMDktMTUgMDA6MDA6MDAuMDAwMDAwICswMDAwIiwicGFnZSI6MjUsImluaXRpYWxfc3luY19zdGFydGVkX2F0IjoiMjAxOS0wOS0xOSAwMDowOToyMC4xNDQzNzcgKzA1MzAiLCJtYXhfdG90YWxfY291bnQiOjQ2NzY2fQ.VcqDAU4_3yEsm4J6pyxsbTaEVWORBL4SfwRKwXOy-8A' \
+      -i -w "@curl-format.txt"
+
+23. printenv
+  Print all environment variables

@@ -1,0 +1,10 @@
+1. Diff between branches
+	git diff dev..production (compares with tip)
+		OR
+	git diff dev...production (compares with common ancestor)
+
+2. Getting and apply diff in files
+	git diff  >& my_patch.patch
+	git apply my_patch.patch
+
+3. Git revert commit
