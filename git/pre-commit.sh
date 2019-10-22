@@ -10,14 +10,13 @@ then
   status=$?
   if [ $status -eq 0 ]
   then
-    printf "\n${cyan}Check Rubocop................................ ${green}${bold}Passed ✓${nc}\n"
+    printf "\n${cyan}Check Rubocop................................${nc}${green}${bold}Passed ✓${nc}\n"
     exit 0
   else
-    printf "\n${cyan}Check Rubocop................................ ${green}${bold}Failed ✗${nc}\n"
-    printf result >&2
+    printf "\n${cyan}Check Rubocop................................${nc}${red}${bold}Failed ✗${nc}\n"
     exit 1
   fi
 else
-  printf "\n${red}${bold}⚠ Skipping pre-commit hooks${nc}\n"
+  printf "\n${red}${bold}⚠  Skipping pre-commit hooks${nc}\n"
 fi
 printf "\n\n"
