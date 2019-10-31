@@ -5,21 +5,36 @@ IRB.conf[:SAVE_HISTORY] = 1000
 IRB.conf[:HISTORY_FILE] = "#{ENV['HOME']}/.irb-save-history"
 
 IRB.conf[:AUTO_INDENT] = true
-IRB.conf[:PROMPT_MODE] = :SIMPLE
+IRB.conf[:PROMPT_MODE] = :CLASSIC
+
+def app_prompt
+  Rails.application.class.parent.name.underscore
+end
+
+def log_path
+  rails_root = Rails.root
+  "#{rails_root}/log/.irb-save-history"
+end
+
+def env_prompt
+  case Rails.env
+  when "development"
+    "dev"
+  when "production"
+    "prod"
+  else
+    Rails.env
+  end
+end
 
 # Loaded when we fire up the Rails console
 # among other things I put the current environment in the prompt
 
 if defined?(Rails) && (Rails.env.development? || Rails.env.test?)
-  rails_env = Rails.env
-  rails_app = Rails.application.class.parent.name.underscore
-  rails_root = Rails.root
-  prompt = "#{rails_app}[#{rails_env.sub('production', 'prod').sub('development', 'dev')}]:%03n "
-  log_file = "#{rails_root}/log/.irb-save-history"
-
-  IRB.conf[:HISTORY_FILE] = FileUtils.touch(log_file).join
-
+  IRB.conf[:HISTORY_FILE] = FileUtils.touch(log_path).join
   IRB.conf[:PROMPT] ||= {}
+
+  prompt = "#{app_prompt}[#{env_prompt}]:%03n "
 
   IRB.conf[:PROMPT][:RAILS] = {
     :PROMPT_I => "#{prompt}>> ",
@@ -30,18 +45,4 @@ if defined?(Rails) && (Rails.env.development? || Rails.env.test?)
   }
 
   IRB.conf[:PROMPT_MODE] = :RAILS
-end
-
-### IRb HELPER METHODS
-
-#clear the screen
-def clear
-  system('clear')
-end
-alias :cl :clear
-
-#ruby documentation right on the console
-# ie. ri Array#each
-def ri(*names)
-  system(%{ri #{names.map {|name| name.to_s}.join(" ")}})
 end
