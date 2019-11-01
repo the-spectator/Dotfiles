@@ -7,9 +7,6 @@ gem: --no-document
 # Verbosity of gem command
 :verbose: true
 
-# Enable/disable automatic updating of repository metadata
-:update_sources: true
-
 # Sources where to look for gems
 :sources:
   - https://rubygems.org
@@ -19,3 +16,6 @@ gem: --no-document
 
 # Concurrently download gems
 :concurrent_downloads: 10
+
+# Enable/disable automatic updating of repository metadata
+# :update_sources: true
