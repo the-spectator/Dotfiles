@@ -22,6 +22,10 @@ function rubocop_hook() {
   fi
 }
 
+function thanks_hook() {
+  echo "Thank YOU"
+}
+
 # Run hooks only when SKIP environment variable is not set
 if [[ -z "$SKIP" ]]
 then
