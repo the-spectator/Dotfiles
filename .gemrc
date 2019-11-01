@@ -1,10 +1,21 @@
 # http://guides.rubygems.org/command-reference/#gem-environment
+# Gem config (YAML)
 ---
+# gem: is used to set default arguments for all commands
 gem: --no-document
-:benchmark: false
+
+# Verbosity of gem command
 :verbose: true
+
+# Enable/disable automatic updating of repository metadata
 :update_sources: true
+
+# Sources where to look for gems
 :sources:
   - https://rubygems.org
+
+# Print backtrace when error encountered
 :backtrace: true
-:bulk_threshold: 1000
+
+# Concurrently download gems
+:concurrent_downloads: 10

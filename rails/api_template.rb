@@ -115,8 +115,8 @@ def setup_whenever
 end
 
 def bundle_install
-  run 'bundle install --path=vendor/bundle'
-  # run 'bundle install'
+  # run 'bundle install --path=vendor/bundle'
+ run 'bundle install'
 end
 
 def setup_dotenv
