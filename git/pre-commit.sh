@@ -51,7 +51,7 @@ function thanks_hook() {
 }
 
 function command_present() {
-  present="$(command -v $@)"
+  command -v "$@" &> /dev/null
   return $?
 }
 
