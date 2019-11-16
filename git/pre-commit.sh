@@ -12,27 +12,52 @@ source "$HOME/colours.sh"
 # Array containing all checks/tasks we want to run in hook
 hooks=(
   rubocop_hook
-  thanks_hook
+  reek_hook
 )
 
 # Function corresponding to check/task in hooks array
 function rubocop_hook() {
-  local status length
+  local length rubocop_present
 
   # Get all the staged files except deleted files
-  files=$(git diff --name-only --cached --diff-filter=d)
+  files="$(commited_files)"
 
   # Get word-length of files
   length=${#files}
+  rubocop_present="$(command_present "rubocop")"
 
   # Run rubocop hook only when length is "not equal" to 0
-  if [[ length -ne 0 ]]; then
+  if [[ $rubocop_present -eq 0 ]] || [[ length -ne 0 ]]; then
     echo $files | xargs bundle exec rubocop --extra-details --parallel --force-exclusion
+  fi
+}
+
+function reek_hook() {
+  local length reek_present
+  files="$(commited_files)"
+
+  # Get word-length of files
+  length=${#files}
+  reek_present="$(command_present "reek")"
+
+  # Run rubocop hook only when length is "not equal" to 0
+  if [[ $reek_present -eq 0 ]] || [[ length -ne 0 ]]; then
+    echo $files | xargs reek --force-exclusion
   fi
 }
 
 function thanks_hook() {
   echo "Thank YOU"
+}
+
+function command_present() {
+  present="$(command -v $@)"
+  return $?
+}
+
+function commited_files() {
+  files=$(git diff --name-only --cached --diff-filter=d)
+  echo "$files"
 }
 
 # Run hooks only when SKIP environment variable is not set
