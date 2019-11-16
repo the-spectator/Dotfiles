@@ -48,7 +48,7 @@ def purple
   "\033[0;35m"
 end
 
-def lPurple
+def lpurple
   "\033[1;35m"
 end
 
