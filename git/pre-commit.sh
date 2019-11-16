@@ -1,6 +1,14 @@
 #!/bin/bash
 source "$HOME/colours.sh"
 
+#########################################################################################
+#                                   HOW to use it
+# 1. Copy pre-commit.sh to your projects .git/hooks
+# 2. make sure it is executable, else make it by `sudo chmod +x .git/hooks/pre-commit.sh`
+# 3. Copy colours.sh to $HOME directory
+# 4. Reload the environment
+##########################################################################################
+
 # Array containing all checks/tasks we want to run in hook
 hooks=(
   rubocop_hook
@@ -44,6 +52,7 @@ then
       printf "\n${cyan}Check ${bold}$hook${nc} ................................ ${nc}${green}${bold}Passed ✓${nc}\n"
     else
       printf "\n${cyan}Check ${bold}$hook${nc} ................................ ${nc}${red}${bold}Failed ✗${nc}\n"
+      exit 1
     fi
   done
 else
