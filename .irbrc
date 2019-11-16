@@ -66,7 +66,7 @@ end
 #       :RETURN => "    ==>%s\n"	      # format to return value
 #     }
 
-if defined?(Rails) && (Rails.env.development? || Rails.env.test?)
+if defined?(Rails)
   IRB.conf[:HISTORY_FILE] = FileUtils.touch(log_path).join
   IRB.conf[:PROMPT] ||= {}
 
@@ -77,7 +77,7 @@ if defined?(Rails) && (Rails.env.development? || Rails.env.test?)
     :PROMPT_N => "#{prompt}> ",
     :PROMPT_S => "#{prompt}* ",
     :PROMPT_C => "#{prompt}? ",
-    :RETURN   => "  => %s\n"
+    :RETURN   => "  #{bold}=>#{reset} %s\n"
   }
 
   IRB.conf[:PROMPT_MODE] = :RAILS
