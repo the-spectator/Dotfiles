@@ -27,8 +27,8 @@ function rubocop_hook() {
   rubocop_present="$(command_present "rubocop")"
 
   # Run rubocop hook only when length is "not equal" to 0
-  if [[ $rubocop_present -eq 0 ]] || [[ length -ne 0 ]]; then
-    echo $files | xargs bundle exec rubocop --extra-details --parallel --force-exclusion
+  if [[ $rubocop_present -eq 0 ]] && [[ length -ne 0 ]]; then
+    echo "$files" | xargs bundle exec rubocop --extra-details --parallel --force-exclusion
   fi
 }
 
@@ -41,7 +41,7 @@ function reek_hook() {
   reek_present="$(command_present "reek")"
 
   # Run rubocop hook only when length is "not equal" to 0
-  if [[ $reek_present -eq 0 ]] || [[ length -ne 0 ]]; then
+  if [[ $reek_present -eq 0 ]] && [[ length -ne 0 ]]; then
     echo $files | xargs reek --force-exclusion
   fi
 }
