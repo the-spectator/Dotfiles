@@ -175,3 +175,24 @@ Example use: lets say you want to grep a file for the string -v - normally -v wi
 
 23. printenv
   Print all environment variables
+
+24. uname -a
+  get all system information
+  Linux akshay-JoshPC 5.0.0-37-generic #40~18.04.1-Ubuntu SMP Thu Nov 14 12:06:39 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux
+
+25. sudo lshw
+  Get all hardware information
+
+26. lscpu
+
+27. lsblk
+
+28. lsusb
+Print USB Controllers Information
+
+29. sudo hdparm /dev/sda1
+Print Information about SATA Devices
+
+30. sudo fdisk -l
+Print Linux File System Information
+
