@@ -197,11 +197,11 @@ bundle_install
 
 after_bundle do
   setup_dotenv
+  add_monitoring_routes
   setup_sidekiq
   setup_whenever
   setup_database_env
   setup_database_yml
-  add_monitoring_routes
   add_pg_dashboard
   setup_rack_cors
   setup_rubocop_yml
