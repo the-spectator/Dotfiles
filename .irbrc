@@ -80,5 +80,13 @@ if defined?(Rails)
     :RETURN   => "  #{bold}=>#{reset} %s\n"
   }
 
+  IRB.conf[:PROMPT][:RAILS_EMOJI] = {
+    :PROMPT_I => "#{prompt}\u{1F601}  >",
+    :PROMPT_N => "#{prompt}\u{1F609}  >",
+    :PROMPT_S => "#{prompt}\u{1F606}  >",
+    :PROMPT_C => "#{prompt}\u{1F605}  >",
+    :RETURN   => "  #{bold}=>#{reset} %s\n"
+  }
+
   IRB.conf[:PROMPT_MODE] = :RAILS
 end
