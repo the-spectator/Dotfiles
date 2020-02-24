@@ -12,7 +12,6 @@ source "$HOME/colours.sh"
 # Array containing all checks/tasks we want to run in hook
 hooks=(
   rubocop_hook
-  reek_hook
 )
 
 # Function corresponding to check/task in hooks array
