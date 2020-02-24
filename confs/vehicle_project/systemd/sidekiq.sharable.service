@@ -1,0 +1,73 @@
+# https://github.com/mperham/sidekiq/blob/master/examples/systemd/sidekiq.service
+
+# JOSH NOTE:
+# Installation Steps:
+# 1. Change the template as per Josh notes in sidekiq.sharable.service and move this file to /etc/systemd/system/sidekiq.service
+# 2. Run: sudo systemctl enable sidekiq
+# 3. Run: sudo service sidekiq start
+# 4. Logs are redirected to /var/log/syslog
+# 5. If config changed in service file RUN: sudo systemctl daemon-reload
+
+# systemd unit file for CentOS 7+, Ubuntu 15.04+
+#
+# Customize this file based on your bundler location, app directory, etc.
+# Put this in /usr/lib/systemd/system (CentOS) or /lib/systemd/system (Ubuntu).
+# Run:
+#   - systemctl enable sidekiq
+#   - systemctl {start,stop,restart,reload} sidekiq
+#
+# This file corresponds to a single Sidekiq process.  Add multiple copies
+# to run multiple processes (sidekiq-1, sidekiq-2, etc).
+#
+[Unit]
+Description=sidekiq
+# start us only once the network and logging subsystems are available,
+# consider adding redis-server.service if Redis is local and systemd-managed.
+
+# JOSH NOTE: generally redis is installed as redis_6379 if installed as other name replace
+After=syslog.target network.target redis_6379.service
+
+# See these pages for lots of options:
+#
+#   https://www.freedesktop.org/software/systemd/man/systemd.service.html
+#   https://www.freedesktop.org/software/systemd/man/systemd.exec.html
+#
+# THOSE PAGES ARE CRITICAL FOR ANY LINUX DEVOPS WORK; read them multiple
+# times! systemd is a critical tool for all developers to know and understand.
+#
+
+# JOSH NOTE: In Josh setups, rvm is installed to path /usr/local/rvm to change check with "which rvm"
+# JSOH NOTE: Switch the project_name to your deployed application path
+# JOSH NOTE: Switch environment as per need
+[Service]
+Type=simple
+WorkingDirectory=/www/project_name/current
+ExecStart=/bin/bash -c '/usr/local/rvm/bin/rvm 2.6.5 do bundle exec sidekiq -e staging -C /www/project_name/current/config/sidekiq.yml'
+
+
+# use `systemctl reload sidekiq` to send the quiet signal to Sidekiq
+# at the start of your deploy process.
+ExecReload=/usr/bin/kill -TSTP $MAINPID
+ExecStartPost=/bin/sh -c "echo $MAINPID > /www/project_name/shared/tmp/sidekiq.pid"
+
+User=ubuntu
+Group=ubuntu
+UMask=0002
+
+# Greatly reduce Ruby memory fragmentation and heap usage
+# https://www.mikeperham.com/2018/04/25/taming-rails-memory-bloat/
+Environment=MALLOC_ARENA_MAX=2
+
+# if we crash, restart
+RestartSec=1
+Restart=on-failure
+
+# output goes to /var/log/syslog
+StandardOutput=syslog
+StandardError=syslog
+
+# This will default to "bundler" if we don't specify it
+SyslogIdentifier=sidekiq
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,5 @@
+check process sidekiq
+  with pidfile "/www/project_name/shared/tmp/pids/sidekiq.pid"
+  start program = "/bin/systemctl start sidekiq"
+  stop program = "/bin/systemctl stop sidekiq"
+  if 5 restart within 5 cycles then timeout

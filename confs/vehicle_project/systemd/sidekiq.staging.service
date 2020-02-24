@@ -1,0 +1,28 @@
+[Unit]
+Description=sidekiq
+After=syslog.target network.target redis_6379.service
+
+[Service]
+Type=simple
+WorkingDirectory=/www/my_project/current
+ExecStart=/bin/bash -c '/usr/local/rvm/bin/rvm 2.6.5 do bundle exec sidekiq -e staging -C /www/my_project/current/config/sidekiq.yml'
+
+ExecReload=/usr/bin/kill -TSTP $MAINPID
+ExecStartPost=/bin/sh -c "echo $MAINPID > /www/my_project/shared/tmp/pids/sidekiq.pid"
+
+User=ubuntu
+Group=ubuntu
+UMask=0002
+
+Environment=MALLOC_ARENA_MAX=2
+
+RestartSec=1
+Restart=on-failure
+
+StandardOutput=syslog
+StandardError=syslog
+
+SyslogIdentifier=sidekiq
+
+[Install]
+WantedBy=multi-user.target

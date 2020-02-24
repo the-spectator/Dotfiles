@@ -1,0 +1,4 @@
+check process nginx with pidfile /etc/nginx/logs/nginx.pid
+  start program = "/bin/systemctl start nginx"
+  stop program  = "/bin/systemctl stop nginx"
+  group www-data
