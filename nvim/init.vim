@@ -30,6 +30,8 @@ set expandtab       " Convert tab to spaces
 set ts=2 sw=2 ai    " set tabstop =2 and shift width = 2 with auto indent
 set tags=.tags      " set ctags
 
+set guifont=DroidSansMono\ Nerd\ Font\ 12
+
 fun! <SID>StripTrailingWhitespaces()
     let l = line(".")
     let c = col(".")
@@ -50,4 +52,5 @@ let g:airline_symbols.space = "\ua0"
 "Alias Wq to wq
 command -complete=file -bang -nargs=? W  :w<bang> <args>
 command -complete=file -bang -nargs=? Wq :wq<bang> <args>
+command -complete=file -bang -nargs=? Q :q<bang> <args>
 
