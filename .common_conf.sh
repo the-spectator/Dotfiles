@@ -7,6 +7,9 @@
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 # export PATH="$PATH:$HOME/.rvm/bin"
 
+# Rust Path
+export PATH="$HOME/.cargo/bin:$PATH"
+
 # Go path
 export PATH=$PATH:/usr/local/go/bin
 
