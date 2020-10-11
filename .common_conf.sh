@@ -5,14 +5,19 @@
 #[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
-
-export DISABLE_SPRING="1"
-export sidekiq_user="akshay"
-export sidekiq_password="abcd@123"
+# export PATH="$PATH:$HOME/.rvm/bin"
 
 # Go path
 export PATH=$PATH:/usr/local/go/bin
+
+# Add rbenv to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
+
+# My env variables
+export DISABLE_SPRING="1"
+export sidekiq_user="akshay"
+export sidekiq_password="abcd@123"
 
 # Lazynvm
 source $HOME/lazynvm.sh
