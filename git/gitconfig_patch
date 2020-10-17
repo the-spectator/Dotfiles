@@ -1,0 +1,6 @@
+0a1,5
+> [user]
+> 	email = akshaybirajdar05@gmail.com
+> 	name = Akshay Birajdar
+> [core]
+>   excludesfile = /home/akshay/.gitignore_global

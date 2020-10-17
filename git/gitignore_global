@@ -1,0 +1,9 @@
+vendor/bundle/**/*
+mypatches/**/*
+sorbet/
+*.swp
+.tags
+.env
+.vscode/**/*
+.templates/**/*
+
