@@ -1,6 +1,9 @@
-0a1,5
-> [user]
-> 	email = akshaybirajdar05@gmail.com
-> 	name = Akshay Birajdar
-> [core]
->   excludesfile = /home/akshay/.gitignore_global
+[user]
+	name = Akshay Birajdar
+	email = akshaybirajdar05@gmail.com
+[core]
+  excludesfile = /home/akshay/.gitignore_global
+	attributesfile = /home/akshay/.gitattributes
+
+[diff "rspec"]
+  xfuncname = "^[ \t]*((RSpec|describe|context|it|before|after|around|feature|scenario|background)[ \t].*)$"
