@@ -43,3 +43,8 @@ function mktouch() {
   dir_path="${file_path/%$file}"
   mkdir -p "${dir_path}" && touch "$file_path"
 }
+
+function cp_edconfig() {
+  local editorconfig_path="$HOME/personal-projects/Dotfiles/.editorconfig"
+  cp "$editorconfig_path" "$PWD"
+}
