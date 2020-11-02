@@ -1,6 +1,6 @@
 # Refer https://github.com/rafmagana/irbrc/blob/master/dot_irbrc
 
-require "#{ENV['HOME']}/aki_colours"
+require "#{ENV['HOME']}/common_ruby_shell"
 
 #history
 IRB.conf[:SAVE_HISTORY] = 5000
@@ -8,40 +8,6 @@ IRB.conf[:HISTORY_FILE] = "#{ENV['HOME']}/.irb-save-history"
 
 IRB.conf[:AUTO_INDENT] = true
 IRB.conf[:PROMPT_MODE] = :CLASSIC
-
-# application name
-def app_prompt
-  rails_klass = Rails.application.class
-
-  app_name =
-    if rails_klass.respond_to? :module_parent
-      rails_klass.module_parent
-    else
-      rails_klass.parent
-    end
-
-  "#{bold}#{lcyan}#{app_name.name.underscore}#{reset}"
-end
-
-# target log path for irb history
-def log_path
-  rails_root = Rails.root
-  "#{rails_root}/log/.irb-save-history"
-end
-
-def env_prompt
-  env =
-    case Rails.env
-    when "development"
-      "#{green}dev"
-    when "production"
-      "#{lred}prod"
-    else
-      "#{cyan}#{Rails.env}"
-    end
-
-  "#{bold}#{env}#{reset}"
-end
 
 # Loaded when we fire up the Rails console
 # among other things I put the current environment in the prompt
@@ -67,24 +33,31 @@ end
 #     }
 
 if defined?(Rails)
+  def rails_prompt(separator)
+    format(
+      '%<app>s[%<env>s]:%%03n %<sep> ',
+      app: app_prompt,
+      env: env_prompt,
+      sep: separator
+    )
+  end
+
   IRB.conf[:HISTORY_FILE] = FileUtils.touch(log_path).join
   IRB.conf[:PROMPT] ||= {}
 
-  prompt = "#{app_prompt}[#{env_prompt}]:%03n "
-
   IRB.conf[:PROMPT][:RAILS] = {
-    :PROMPT_I => "#{prompt}>> ",
-    :PROMPT_N => "#{prompt}> ",
-    :PROMPT_S => "#{prompt}* ",
-    :PROMPT_C => "#{prompt}? ",
+    :PROMPT_I => rails_prompt(">>"),
+    :PROMPT_N => rails_prompt(">"),
+    :PROMPT_S => rails_prompt("*"),
+    :PROMPT_C => rails_prompt("?"),
     :RETURN   => "  #{bold}=>#{reset} %s\n"
   }
 
   IRB.conf[:PROMPT][:RAILS_EMOJI] = {
-    :PROMPT_I => "#{prompt}\u{1F601}  >",
-    :PROMPT_N => "#{prompt}\u{1F609}  >",
-    :PROMPT_S => "#{prompt}\u{1F606}  >",
-    :PROMPT_C => "#{prompt}\u{1F605}  >",
+    :PROMPT_I => rails_prompt("\u{1F601}  >"),
+    :PROMPT_N => rails_prompt("\u{1F609}  >"),
+    :PROMPT_S => rails_prompt("\u{1F606}  >"),
+    :PROMPT_C => rails_prompt("\u{1F605}  >"),
     :RETURN   => "  #{bold}=>#{reset} %s\n"
   }
 
