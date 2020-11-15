@@ -6,4 +6,6 @@ sorbet/
 .env
 .vscode/**/*
 .templates/**/*
+.bundle/**/*
+Gemlocal*
 
