@@ -196,3 +196,15 @@ Print Information about SATA Devices
 30. sudo fdisk -l
 Print Linux File System Information
 
+31. Number of process
+Linux => nproc
+MacOs => sysctl -n hw.ncpu
+
+32. calendar on terminal
+cal
+
+33. Know the defintion of command
+type dip #=> dip is /home/akshay/.rbenv/shims/dip
+
+34. Articles for command
+https://dev.to/ptuladhar3/linux-commands-for-developers-17j
