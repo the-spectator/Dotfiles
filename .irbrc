@@ -35,7 +35,7 @@ IRB.conf[:PROMPT_MODE] = :CLASSIC
 if defined?(Rails)
   def rails_prompt(separator)
     format(
-      '%<app>s[%<env>s]:%%03n %<sep> ',
+      '%<app>s[%<env>s]:%%03n %<sep>s ',
       app: app_prompt,
       env: env_prompt,
       sep: separator

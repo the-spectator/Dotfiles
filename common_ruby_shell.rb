@@ -34,3 +34,10 @@ def log_path
   "#{rails_root}/log/.irb-save-history"
 end
 
+# pbcopy helper: Copied from: https://stackoverflow.com/a/46065116/5863438
+def pbcopy(arg)
+  out = arg.is_a?(String) ? arg : arg.inspect
+  IO.popen('pbcopy', 'w') { |io| io.puts out }
+  puts out
+  true
+end

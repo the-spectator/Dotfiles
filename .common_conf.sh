@@ -19,7 +19,7 @@ eval "$(rbenv init -)"
 source "$HOME/.rbenv/completions/rbenv.zsh"
 
 # My env variables
-export DISABLE_SPRING="1"
+# export DISABLE_SPRING="1"
 export sidekiq_user="akshay"
 export sidekiq_password="abcd@123"
 

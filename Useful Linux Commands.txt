@@ -110,7 +110,7 @@ head -n 158 file | tail -n 73 # 158-85=73
 13. Fix really long command
    fc
 
-14. Tunnel with ssh (local port 3337 -> remote host's 127.0.0.1 on port 6379)
+14. Tunnel with Ssh (local port 3337 -> remote host's 127.0.0.1 on port 6379)
    ssh -L 3337:127.0.0.1:6379 user@ip-or-domain -N
 
 15. Interceot stdout and lg to file
@@ -208,3 +208,30 @@ type dip #=> dip is /home/akshay/.rbenv/shims/dip
 
 34. Articles for command
 https://dev.to/ptuladhar3/linux-commands-for-developers-17j
+
+35. MAC ONLY: caffeinate
+  Prepend `caffeinate` to any command and in the shell and it will prevent mac from sleeping.
+  Ideal use case: ssh, scp
+
+37. pv: pipe viewer
+  Monitors the data transfered through pipe operation.
+
+38. MacOs version
+   sw_vers
+
+39. Exit from ssh terminal
+   Command: ~.
+   Works both on mac & linux
+   https://unix.stackexchange.com/questions/41682/exit-out-of-all-ssh-connections-in-one-command-and-close-putty
+
+40. function to capture arguements in bash function
+fresh(){
+   # t stores $1 argument passed to fresh()
+   t=$1
+   echo "fresh(): \$0 is $0"
+   echo "fresh(): \$1 is $1"
+   echo "fresh(): \$t is $t"
+   echo "fresh(): total args passed to me $#"
+   echo "fresh(): all args (\$@) passed to me -\"$@\""
+   echo "fresh(): all args (\$*) passed to me -\"$*\""
+}

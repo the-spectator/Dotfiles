@@ -8,3 +8,8 @@
 	git apply my_patch.patch
 
 3. Git revert commit
+
+4. Empty commits
+  git commit --allow-empty
+
+  This allows to make a new commit with no actual file change. Usecase: No more random whitespace changes to trigger new builds

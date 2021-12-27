@@ -1,5 +1,6 @@
 vendor/bundle/**/*
-*/**/mypatches/**/*
+vendor/bundle_031/**/*
+**/mypatches/**/*
 sorbet/
 *.swp
 .tags
@@ -8,4 +9,5 @@ sorbet/
 .templates/**/*
 .bundle/**/*
 Gemlocal*
-
+.byebug_history
+.git-blame-ignore-revs
