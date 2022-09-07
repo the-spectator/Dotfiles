@@ -4,6 +4,10 @@ PROMPT='
 $(_user_host)${_current_dir} $(git_prompt_info)
 %{$fg[$CARETCOLOR]%}❱%{$resetcolor%} '
 
+#PROMPT='
+#$(_user_host)$(_current_arch)${_current_dir} $(git_prompt_info)
+#%{$fg[$CARETCOLOR]%}❱%{$resetcolor%} '
+
 PROMPT2='%{$fg[$CARETCOLOR]%}❰%{$reset_color%} '
 
 RPROMPT='%{$(echotc UP 1)%} ${_return_status}%{$(echotc DO 1)%}'
@@ -19,6 +23,16 @@ function _current_dir() {
   else
     echo "%{$fg_bold[blue]%}%~%{$reset_color%} "
   fi
+}
+
+function _current_arch() {
+  local my_arch=$(arch)
+  if [[ $my_arch == "arm64"  ]]; then
+    color="green"
+  else
+    color="white"
+  fi
+  echo "(%{$fg[$color]%}$my_arch%{$reset_color%})"
 }
 
 function _user_host() {

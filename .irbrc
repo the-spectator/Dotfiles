@@ -8,6 +8,8 @@ IRB.conf[:HISTORY_FILE] = "#{ENV['HOME']}/.irb-save-history"
 
 IRB.conf[:AUTO_INDENT] = true
 IRB.conf[:PROMPT_MODE] = :CLASSIC
+IRB.conf[:USE_MULTILINE] = false
+IRB.conf[:USE_AUTOCOMPLETE] = false
 
 # Loaded when we fire up the Rails console
 # among other things I put the current environment in the prompt
@@ -63,3 +65,4 @@ if defined?(Rails)
 
   IRB.conf[:PROMPT_MODE] = :RAILS
 end
+
