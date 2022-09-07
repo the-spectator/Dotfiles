@@ -1,0 +1,6 @@
+[user]
+  name = Akshay Birajdar
+  email = me@akshaybirajdar.com
+
+[core]
+  sshCommand = ssh -i ~/.ssh/id_work_github

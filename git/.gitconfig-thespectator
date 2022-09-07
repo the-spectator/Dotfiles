@@ -1,0 +1,6 @@
+[user]
+  name = Akshay Birajdar
+  email = akshaybirajdar05@gmail.com
+
+[core]
+  sshCommand = ssh -i ~/.ssh/id_the-spectator
