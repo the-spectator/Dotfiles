@@ -6,6 +6,9 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'edkolev/tmuxline.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
+Plug 'wsdjeg/vim-fetch'
+" NERD tree will be loaded on the first invocation of NERDTreeToggle command
+Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug '~/.fzf'
 
 call plug#end()
@@ -46,4 +49,7 @@ if !exists('g:airline_symbols')
 endif
 let g:airline_symbols.space = "\ua0"
 
-
+"Alias Wq to wq
+command -complete=file -bang -nargs=? W  :w<bang> <args>
+command -complete=file -bang -nargs=? Wq :wq<bang> <args>
+command -complete=file -bang -nargs=? Q :q<bang> <args>
