@@ -66,3 +66,6 @@ if defined?(Rails)
   IRB.conf[:PROMPT_MODE] = :RAILS
 end
 
+def my_methods obj
+  (obj.methods - Object.methods).sort
+end

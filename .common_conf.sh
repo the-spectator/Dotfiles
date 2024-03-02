@@ -18,10 +18,17 @@ export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
 source "$HOME/.rbenv/completions/rbenv.zsh"
 
+# GOlang defaulth path
+export GOPATH=$HOME/personal-projects/go
+export PATH=$GOPATH/bin:$PATH
+
 # My env variables
 # export DISABLE_SPRING="1"
 export sidekiq_user="akshay"
 export sidekiq_password="abcd@123"
+
+# Disable auto homebrew update
+export HOMEBREW_NO_AUTO_UPDATE=1
 
 # Lazynvm
 source $HOME/lazynvm.sh
@@ -37,6 +44,8 @@ alias vi="nvim"
 alias mzsh="arch -arm64 zsh"
 alias izsh="arch -x86_64 zsh"
 alias correct_me="git status --porcelain | grep -v "^ D" | xargs bundle exec rubocop -a"
+alias diary="cd ~/personal-projects/Day_In_Life && code ."
+alias kcp="kubectl cp --retries=10"
 
 
 # Myhelpers
@@ -113,4 +122,70 @@ function is_rails_project {
     echo "😢 Didn't find rails project"
     return 1
   fi
+}
+
+# returns the list of filenames from rspec output format
+function rspec_paste() {
+  pbpaste | cut -d ' ' -f 2 | sort
+}
+
+function respec() {
+  rspec_paste | xargs rspec
+}
+
+function espec() {
+  rspec_paste | cut -d ':' -f 1 | uniq | xargs $EDITOR
+}
+
+function klogs() {
+  local instance_type=$1
+  local instance_number=$2
+  local instance_name=""
+  local kube_name=""
+
+  case "$instance_type" in
+    worker)
+      kube_name="mekari-credit-chart-worker"
+
+      case "$instance_number" in
+        1)
+          instance_name="mekari-credit-staging-worker"
+          ;;
+        2)
+          instance_name="mekari-credit-staging-2-worker"
+          ;;
+        *)
+          echo "Invalid worker number: $instance_number"
+          return 1
+          ;;
+      esac
+      ;;
+    web)
+      kube_name="mekari-credit-chart"
+
+      case "$instance_number" in
+        1)
+          instance_name="mekari-credit-staging"
+          ;;
+        2)
+          instance_name="mekari-credit-staging-2"
+          ;;
+        *)
+          echo "Invalid web number: $instance_number"
+          return 1
+          ;;
+      esac
+      ;;
+    *)
+      echo "Invalid instance type: $instance_type"
+      return 1
+      ;;
+  esac
+
+  echo "kubectl logs --tail=5000 -f --selector=app.kubernetes.io/name="$kube_name",app.kubernetes.io/instance="$instance_name" --max-log-requests=10"
+  kubectl logs --tail=5000 -f --selector=app.kubernetes.io/name="$kube_name",app.kubernetes.io/instance="$instance_name" --max-log-requests=10
+}
+
+function restart_rails() {
+  kill -SIGUSR2 "$(cat $(pwd)/tmp/pids/server.pid)"
 }

@@ -1,6 +1,13 @@
 [user]
 	name = Akshay Birajdar
 	email = akshaybirajdar05@gmail.com
+
+[color]
+	ui = true
+
+[init]
+	defaultBranch = main
+
 [core]
   excludesfile = /home/akshay/.gitignore_global
   attributesfile = /home/akshay/.gitattributes
@@ -11,9 +18,26 @@
 [tag]
   sort = -creatorsort
 
+[url "ssh://git@bitbucket.org/"]
+	insteadOf = https://bitbucket.org/
+
 [alias]
+  s = status
+  co = checkout
+  del = branch -D
+  undo = reset HEAD~1 --mixed
+  com = "!f(){ git checkout $(git main) $@;}; f"
   recent = branch --sort=-committerdate --format=\"%(committerdate:relative)%09%(refname:short)\"
   branches = for-each-ref --sort=-committerdate --format=\"%(color:blue)%(authordate:relative)\t%(color:red)%(authorname)\t%(color:white)%(color:bold)%(refname:short)\" refs/remotes
+  change-commits = "!f() { VAR=$1; OLD=$2; NEW=$3; shift 3; git filter-branch --env-filter \"if [[ \\\"$`echo $VAR`\\\" = '$OLD' ]]; then export $VAR='$NEW'; fi\" $@; }; f"
+  main = !git symbolic-ref refs/remotes/origin/HEAD | cut -d'/' -f4
+  remotesh = remote set-head origin --auto
+  freq-change = "!f() { COUNT=${1:-10}; COUNT=$(($COUNT+1)); git log --pretty=format: --name-only | sort | uniq -c | sort -rg | head -$COUNT;}; f"
+  jira = "!f() { git log $@ --pretty=%B | awk 'match($0, /[A-Z]+-[0-9]{1,4}/) { print substr($0, RSTART, RLENGTH)}' | sort | uniq;}; f"
+  merge-after = "!f() { AFTER=$(git log -1 --format=%ai $1); git log --after=$AFTER --merges --name-only --decorate --first-parent --pretty=format:% }; f"
+  aafter = "!f() { git log -1 --format=%ai $1 | xargs -I {} git log --after={} --merges --name-only --decorate --first-parent; }; f"
+  diff-stat = "!f() { git diff --numstat \"$@\" | awk '{ added += $1; removed += $2 } END { print \"+\" added \" -\" removed }'; }; f"
+  user-stat = "shortlog --summary --numbered --all --no-merges"
 
 [includeIf "gitdir:~/personal-projects/"]
   path = ~/.gitconfig-thespectator
