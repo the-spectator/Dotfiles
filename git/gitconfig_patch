@@ -1,12 +1,12 @@
 [user]
-	name = Akshay Birajdar
-	email = akshaybirajdar05@gmail.com
+  name = Akshay Birajdar
+  email = akshaybirajdar05@gmail.com
 
 [color]
-	ui = true
+  ui = true
 
 [init]
-	defaultBranch = main
+  defaultBranch = main
 
 [core]
   excludesfile = /home/akshay/.gitignore_global
@@ -18,8 +18,26 @@
 [tag]
   sort = -creatorsort
 
+[push]
+  autosetupremote = true
+
+[rerere]
+  enabled = true
+
+[commit]
+  verbose = true
+
+[merge]
+  conflictStyle = zdiff3
+
+[diff]
+  algorithm = histogram
+
+[branch]
+  sort = -committerdate
+
 [url "ssh://git@bitbucket.org/"]
-	insteadOf = https://bitbucket.org/
+  insteadOf = https://bitbucket.org/
 
 [alias]
   s = status
