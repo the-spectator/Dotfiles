@@ -44,7 +44,8 @@ alias vi="nvim"
 alias mzsh="arch -arm64 zsh"
 alias izsh="arch -x86_64 zsh"
 alias correct_me="git status --porcelain | grep -v "^ D" | xargs bundle exec rubocop -a"
-alias diary="cd ~/personal-projects/Day_In_Life && code ."
+# alias diary="cd ~/personal-projects/Day_In_Life && code ."
+alias diary="cd ~/personal-projects/obscure-obsidian/day_in_life && open 'obsidian://open?vault=day_in_life'"
 alias kcp="kubectl cp --retries=10"
 
 
