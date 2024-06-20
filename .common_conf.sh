@@ -1,9 +1,5 @@
 [ -f ~/.fzf.bash ] && source ~/.fzf.zsh
 
-#export NVM_DIR="$HOME/.nvm"
-#[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-#[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 # export PATH="$PATH:$HOME/.rvm/bin"
 
@@ -18,6 +14,13 @@ export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
 source "$HOME/.rbenv/completions/rbenv.zsh"
 
+# Lazynvm
+source $HOME/lazynvm.sh
+#export NVM_DIR="$HOME/.nvm"
+#[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+#[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+
 # GOlang defaulth path
 export GOPATH=$HOME/personal-projects/go
 export PATH=$GOPATH/bin:$PATH
@@ -29,9 +32,6 @@ export sidekiq_password="abcd@123"
 
 # Disable auto homebrew update
 export HOMEBREW_NO_AUTO_UPDATE=1
-
-# Lazynvm
-source $HOME/lazynvm.sh
 
 # alias
 alias be="bundle exec"
@@ -48,6 +48,13 @@ alias correct_me="git status --porcelain | grep -v "^ D" | xargs bundle exec rub
 alias diary="cd ~/personal-projects/obscure-obsidian/day_in_life && open 'obsidian://open?vault=day_in_life'"
 alias kcp="kubectl cp --retries=10"
 
+# iterm
+bindkey "\e\e[D" backward-word # ⌥←
+bindkey "\e\e[C" forward-word # ⌥→
+
+# kitty
+bindkey "\e[1;3D" backward-word # ⌥←
+bindkey "\e[1;3C" forward-word # ⌥→
 
 # Myhelpers
 function mktouch() {
@@ -93,11 +100,7 @@ function load_project {
   fi
   echo "Opening project $1"
 
-  cd ~/$1 &&
-  (
-    tab "code ."
-    tab "g s"
-  )
+  cd ~/$1 && create_new_tabs
 
   if [ -e ./bin/dev ]
   then
@@ -112,6 +115,19 @@ function load_project {
   fi
 
   return 1
+}
+
+function create_new_tabs {
+  if [ -z "$KITTY_WINDOW_ID" ]
+  then
+    kitten @ launch --type=tab --keep-focus zsh
+  elif
+  then
+    (
+      new_tab "code ."
+      new_tab "g s"
+    )
+  fi
 }
 
 function is_rails_project {
