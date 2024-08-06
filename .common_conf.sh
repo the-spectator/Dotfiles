@@ -1,4 +1,5 @@
-[ -f ~/.fzf.bash ] && source ~/.fzf.zsh
+# Set up fzf key bindings and fuzzy completion
+source <(fzf --zsh)
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 # export PATH="$PATH:$HOME/.rvm/bin"
@@ -12,7 +13,6 @@
 # Add rbenv to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
-source "$HOME/.rbenv/completions/rbenv.zsh"
 
 # Lazynvm
 source $HOME/lazynvm.sh
