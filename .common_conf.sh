@@ -118,9 +118,10 @@ function load_project {
 }
 
 function create_new_tabs {
-  if [ -z "$KITTY_WINDOW_ID" ]
+  if [ -n "${KITTY_WINDOW_ID+1}" ]
   then
-    kitten @ launch --type=tab --keep-focus zsh
+    kitten @ launch --type=tab --tab-title "VS code" --cwd="$PWD" --keep-focus
+    kitten @ launch --type=tab --tab-title "Git" --cwd="$PWD" --keep-focus
   elif
   then
     (

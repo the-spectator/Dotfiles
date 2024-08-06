@@ -3,41 +3,13 @@
   email = akshaybirajdar05@gmail.com
 
 [color]
-  ui = true
-
-[init]
-  defaultBranch = main
-
+	ui = true
 [core]
-  excludesfile = /home/akshay/.gitignore_global
-  attributesfile = /home/akshay/.gitattributes
+  excludesfile = /Users/akshaybirajdar/.gitignore_global
+  attributesfile = /Users/akshaybirajdar/.gitattributes
 
 [diff "rspec"]
   xfuncname = "^[ \t]*((RSpec|describe|context|it|before|after|around|feature|scenario|background)[ \t].*)$"
-
-[tag]
-  sort = -creatorsort
-
-[push]
-  autosetupremote = true
-
-[rerere]
-  enabled = true
-
-[commit]
-  verbose = true
-
-[merge]
-  conflictStyle = zdiff3
-
-[diff]
-  algorithm = histogram
-
-[branch]
-  sort = -committerdate
-
-[url "ssh://git@bitbucket.org/"]
-  insteadOf = https://bitbucket.org/
 
 [alias]
   s = status
@@ -62,3 +34,23 @@
 
 [includeIf "gitdir:~/akshay-birajdar/"]
   path = ~/.gitconfig-akshay-birajdar
+[init]
+	defaultBranch = main
+[tag]
+  sort = -creatordate
+[url "ssh://git@bitbucket.org/"]
+	insteadOf = https://bitbucket.org/
+[push]
+	autosetupremote = true
+[rerere]
+	enabled = true
+[commit]
+	verbose = true
+[merge]
+	conflictStyle = zdiff3
+[diff]
+	algorithm = histogram
+[branch]
+	sort = -committerdate
+[maintenance]
+	repo = /Users/akshaybirajdar/projects/mekari_credit
